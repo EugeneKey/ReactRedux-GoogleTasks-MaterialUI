@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
 import './LoginPage.less';
 
-const LoginPage = React.createClass({
+class LoginPage extends Component {
     render() {
         return (
             <div className='LoginPage'>
@@ -26,6 +26,6 @@ const LoginPage = React.createClass({
             </div>
         );
     }
-});
+}
 
 export default LoginPage;

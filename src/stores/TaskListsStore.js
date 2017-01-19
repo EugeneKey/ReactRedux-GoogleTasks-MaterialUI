@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import {EventEmitter} from 'events';
 
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import AppConstants from '../constants/AppConstants';
@@ -116,6 +116,7 @@ AppDispatcher.register(function(action) {
         }
 
         default: {
+            //empty
         }
     }
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
@@ -12,11 +12,7 @@ import Colors from 'material-ui/styles/colors';
 
 import './TasklistsPage.less';
 
-const TasklistsPage = React.createClass({
-    contextTypes: {
-        router: React.PropTypes.object.isRequired
-    },
-
+class TasklistsPage extends Component {
     render() {
         const { router } = this.context;
 
@@ -82,6 +78,10 @@ const TasklistsPage = React.createClass({
             </div>
         );
     }
-});
+}
+
+TasklistsPage.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
 
 export default TasklistsPage;

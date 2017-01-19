@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -8,7 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import './styles/base.less';
 
-const App = React.createClass({
+class App extends Component {
     render() {
         return (
         	<MuiThemeProvider>
@@ -17,7 +17,7 @@ const App = React.createClass({
             </div>
            </MuiThemeProvider>
         );
-    },
-});
+    }
+}
 
 export default App;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
 
 import Checkbox from 'material-ui/Checkbox';
@@ -17,30 +17,39 @@ import './Task.less';
 const ENTER_KEY = 13;
 const ESC_KEY = 27;
 
-const Task = React.createClass({
-    getInitialState() {
-        return {
-            isEditing: false
-        };
-    },
+class Task extends Component {
+    state = {
+        isEditing: false
+    }    
+
+    constructor(props) {
+        super(props);
+
+        // Bind `this` within methods
+        this.handleEdit = this.handleEdit.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
+        this.handleSave = this.handleSave.bind(this);
+        this.handleCheck = this.handleCheck.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+    }
 
     handleEdit(e) {
         this.setState({ isEditing: true }, this.focusInput);
-    },
+    }
 
     handleCancel() {
         this.cancelTask();
-    },
+    }
 
     handleSave() {
         this.saveTask();
-    },
+    }
 
     handleCheck() {
         this.props.onStatusChange({
             isCompleted: !this.props.isCompleted
         });
-    },
+    }
 
     handleKeyDown(e) {
         if (e.keyCode === ENTER_KEY) {
@@ -50,11 +59,11 @@ const Task = React.createClass({
         if (e.keyCode === ESC_KEY) {
             this.cancelTask();
         }
-    },
+    }
 
     focusInput() {
         this.text.focus();
-    },
+    }
 
     saveTask() {
         this.props.onUpdate({ 
@@ -63,11 +72,11 @@ const Task = React.createClass({
         });
 
         this.setState({ isEditing: false });
-    },
+    }
 
     cancelTask() {
         this.setState({ isEditing: false });
-    },
+    }
 
     render() {
         const { text, note, due, isCompleted, onDelete } = this.props;
@@ -138,6 +147,6 @@ const Task = React.createClass({
                 </div>
         );
     }
-});
+}
 
 export default Task;

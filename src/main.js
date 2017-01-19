@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import { Router, Route, Redirect, hashHistory } from 'react-router';
+import {Router, Route, Redirect, hashHistory} from 'react-router';
 
 import SessionActions from './actions/SessionActions';
 import SessionStore from './stores/SessionStore';
@@ -39,7 +39,7 @@ function requireAuth(nextState, replace) {
     if (!SessionStore.isLoggedIn()) {
         replace({
             pathname: '/login',
-            state: { nextPathname: nextState.location.pathname }
+            state: {nextPathname: nextState.location.pathname}
         });
     }
 }

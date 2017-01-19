@@ -5,7 +5,7 @@ import api from '../api';
 
 const SessionActions = {
     authorize(immediate = false, callback) {
-        api.authorize({ immediate })
+        api.authorize({immediate})
         .then(() => {
             AppDispatcher.dispatch({
                 type: AppConstants.SESSION_AUTHORIZE_SUCCESS

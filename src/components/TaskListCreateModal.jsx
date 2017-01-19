@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-const TaskListCreateModal = React.createClass({
-    getInitialState() {
-        return {
-            name : ''
-        };
-    },
+class TaskListCreateModal extends Component {
+    state = {
+        name : ''
+    }
+
+    constructor(props) {
+        super(props);
+
+        // Bind `this` within methods
+        this.handleClose = this.handleClose.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleTextChange = this.handleTextChange.bind(this);
+    }
 
     handleClose() {
         const { onClose } = this.props;
@@ -19,7 +26,7 @@ const TaskListCreateModal = React.createClass({
         if (onClose) {
             onClose();
         }
-    },
+    }
 
     handleSubmit() {
         const { onSubmit } = this.props;
@@ -31,13 +38,13 @@ const TaskListCreateModal = React.createClass({
         }
 
         this.setState({ name: '' });
-    },
+    }
 
     handleTextChange(e) {
         this.setState({
             name: e.target.value
         });
-    },
+    }
 
     render() {
         const { name } = this.state;
@@ -74,6 +81,6 @@ const TaskListCreateModal = React.createClass({
             </Dialog>
         );
     }
-});
+}
 
 export default TaskListCreateModal;

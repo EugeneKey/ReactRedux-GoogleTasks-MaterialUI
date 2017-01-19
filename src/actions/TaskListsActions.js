@@ -37,7 +37,7 @@ const TaskListsActions = {
     },
 
     createTaskList(params) {
-        api.insertTaskList({ title: params.name })
+        api.insertTaskList({title: params.name})
         .then(data => {
             AppDispatcher.dispatch({
                 type     : AppConstants.TASK_LIST_CREATE_SUCCESS,
@@ -53,7 +53,7 @@ const TaskListsActions = {
     },
 
     updateTaskList(params) {
-        api.updateTaskList({ taskListId: params.taskListId, title: params.name })
+        api.updateTaskList({taskListId: params.taskListId, title: params.name})
         .then(data => {
             AppDispatcher.dispatch({
                 type       : AppConstants.TASK_LIST_UPDATE_SUCCESS,
@@ -70,11 +70,12 @@ const TaskListsActions = {
     },
 
     deleteTaskList(params) {
-        api.deleteTaskList({ taskListId: params.taskListId })
+        api.deleteTaskList({taskListId: params.taskListId})
         .then(data => {
             AppDispatcher.dispatch({
                 type       : AppConstants.TASK_LIST_DELETE_SUCCESS,
-                taskListId : params.taskListId
+                taskListId : params.taskListId,
+                taskList   : data
             });
         })
         .catch(err => {

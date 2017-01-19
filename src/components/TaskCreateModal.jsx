@@ -1,18 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import Dialog from 'material-ui/Dialog';
 import DatePicker from 'material-ui/DatePicker';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-const TaskCreateModal = React.createClass({
-    getInitialState() {
-        return {
-            text : '',
-            note : '',
-            due  : null
-        };
-    },
+class TaskCreateModal extends Component {
+    state = {
+        text : '',
+        note : '',
+        due  : null
+    }    
+    
+    constructor(props) {
+        super(props);
+
+        // Bind `this` within methods
+        this.handleClose = this.handleClose.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleTextChange = this.handleTextChange.bind(this);
+        this.handleNoteChange = this.handleNoteChange.bind(this);
+        this.handleDueChange = this.handleDueChange.bind(this);
+    }
 
     handleClose() {
         const { onClose } = this.props;
@@ -22,7 +31,7 @@ const TaskCreateModal = React.createClass({
         if (onClose) {
             onClose();
         }
-    },
+    }
 
     handleSubmit() {
         const { onSubmit } = this.props;
@@ -36,25 +45,25 @@ const TaskCreateModal = React.createClass({
         }
 
         this.resetState();
-    },
+    }
 
     handleTextChange(e) {
         this.setState({
             text: e.target.value
         });
-    },
+    }
 
     handleNoteChange(e) {
         this.setState({
             note: e.target.value
         });
-    },
+    }
 
     handleDueChange(e, date) {
         this.setState({
             due: date
         });
-    },
+    }
 
     resetState() {
         this.setState({
@@ -62,7 +71,7 @@ const TaskCreateModal = React.createClass({
             note: '',
             due: null
         });
-    },
+    }
 
     render() {
         const { text, note, due } = this.state;
@@ -113,6 +122,6 @@ const TaskCreateModal = React.createClass({
             </Dialog>
         );
     }
-});
+}
 
 export default TaskCreateModal;

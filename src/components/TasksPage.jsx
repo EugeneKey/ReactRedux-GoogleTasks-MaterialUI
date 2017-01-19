@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import IconButton from 'material-ui/IconButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -13,22 +13,29 @@ import './TasksPage.less';
 const ENTER_KEY = 13;
 const ESC_KEY = 27;
 
-const TasksPage = React.createClass({
-    getInitialState() {
-        return {
-            isEditingTaskList: false
-        };
-    },
+class TasksPage extends Component {
+    state = {
+        isEditingTaskList: false
+    }
+
+    constructor(props) {
+        super(props);
+
+        // Bind `this` within methods
+        this.handleEditTaskList = this.handleEditTaskList.bind(this);
+        this.handleSubmitTaskList = this.handleSubmitTaskList.bind(this);
+        this.handleTaskListEditKeyDown = this.handleTaskListEditKeyDown.bind(this);      
+    }
 
     handleEditTaskList() {
         this.setState({
             isEditingTaskList: true
         }, () => this.taskList.focus() );
-    },
+    }
 
     handleSubmitTaskList() {
         this.saveTaskList();
-    },
+    }
 
     handleTaskListEditKeyDown(e) {
         if (e.keyCode === ENTER_KEY) {
@@ -38,7 +45,7 @@ const TasksPage = React.createClass({
         if (e.keyCode === ESC_KEY) {
             this.cancelEditingTaskList();
         }
-    },
+    }
 
     saveTaskList() {
         this.props.onUpdateTaskList({
@@ -46,11 +53,11 @@ const TasksPage = React.createClass({
         });
 
         this.cancelEditingTaskList();
-    },
+    }
 
     cancelEditingTaskList() {
         this.setState({ isEditingTaskList: false });
-    },    
+    }
 
     renderTasks() {
         return (
@@ -71,7 +78,7 @@ const TasksPage = React.createClass({
                 }
             </div>
         );
-    },
+    }
 
     render() {
         if (this.props.error) {
@@ -126,6 +133,6 @@ const TasksPage = React.createClass({
             </div>
         );
     }
-});
+}
 
 export default TasksPage;

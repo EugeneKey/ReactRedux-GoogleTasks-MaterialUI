@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 import Paper from 'material-ui/Paper';
 
 import './AboutPage.less';
 
-const AboutPage = React.createClass({
+class AboutPage extends Component {
     render() {
         return (
             <div className='AboutPage'>
@@ -21,6 +21,6 @@ const AboutPage = React.createClass({
             </div>
         );
     }
-});
+}
 
 export default AboutPage;

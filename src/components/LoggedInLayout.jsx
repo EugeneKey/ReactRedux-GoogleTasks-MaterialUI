@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import './LoggedInLayout.less';
 
-const LoggedInLayout = React.createClass({
+class LoggedInLayout extends Component {
     render() {
         return (
             <div className='LoggedInLayout'>
@@ -12,6 +12,6 @@ const LoggedInLayout = React.createClass({
             </div>
         );
     }
-});
+}
 
 export default LoggedInLayout;

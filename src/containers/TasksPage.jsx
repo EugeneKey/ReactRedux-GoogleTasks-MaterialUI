@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import TasksActions from '../actions/TasksActions';
 import TaskListsActions from '../actions/TaskListsActions';
@@ -17,39 +17,45 @@ function getStateFromFlux() {
     };
 }
 
-const TasksPageContainer = React.createClass({
-    contextTypes: {
-        router: React.PropTypes.object.isRequired
-    },
+class TasksPageContainer extends Component {    
+    state = {
+        ...getStateFromFlux(),
+        isCreatingTask: false
+    }
 
-    getInitialState() {
-        return {
-            ...getStateFromFlux(),
-            isCreatingTask: false
-        };
-    },
+    constructor(props) {
+        super(props);
 
-    componentWillMount() {
         TasksActions.loadTasks(this.props.params.id);
         TaskListsActions.loadTaskList(this.props.params.id);
-    },
+
+        // Bind `this` within methods
+        this.handleTaskStatusChange = this.handleTaskStatusChange.bind(this);
+        this.handleTaskUpdate = this.handleTaskUpdate.bind(this);
+        this.handleTaskDelete = this.handleTaskDelete.bind(this);
+        this.handleAddTask = this.handleAddTask.bind(this);
+        this.handleTaskCreateModalClose = this.handleTaskCreateModalClose.bind(this);
+        this.handleTaskSubmit = this.handleTaskSubmit.bind(this);
+        this.handleDeleteTaskList = this.handleDeleteTaskList.bind(this);
+        this.handleUpdateTaskList = this.handleUpdateTaskList.bind(this);        
+    }
 
     componentDidMount() {
         TasksStore.addChangeListener(this._onChange);
         TaskListsStore.addChangeListener(this._onChange);
-    },
+    }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.params.id !== nextProps.params.id) {
             TasksActions.loadTasks(nextProps.params.id);
             TaskListsActions.loadTaskList(nextProps.params.id);
         }
-    },
+    }
 
     componentWillUnmount() {
         TasksStore.removeChangeListener(this._onChange);
         TaskListsStore.removeChangeListener(this._onChange);
-    },
+    }
 
     handleTaskStatusChange(taskId, { isCompleted }) {
         TasksActions.updateTaskStatus({
@@ -57,7 +63,7 @@ const TasksPageContainer = React.createClass({
             taskId: taskId,
             isCompleted: isCompleted
         });
-    },
+    }
 
     handleTaskUpdate(taskId, task) {
         TasksActions.updateTask({
@@ -65,22 +71,22 @@ const TasksPageContainer = React.createClass({
             taskId: taskId,
             ...task
         });
-    },
+    }
 
     handleTaskDelete(taskId) {
         TasksActions.deleteTask({
             taskListId: this.props.params.id,
             taskId: taskId
         });
-    },
+    }
 
     handleAddTask() {
         this.setState({ isCreatingTask : true });
-    },
+    }
 
     handleTaskCreateModalClose() {
         this.setState({ isCreatingTask : false });
-    },
+    }
 
     handleTaskSubmit(task) {
         const taskListId = this.props.params.id;
@@ -88,7 +94,7 @@ const TasksPageContainer = React.createClass({
         TasksActions.createTask({ taskListId, ...task });
 
         this.setState({ isCreatingTask : false });
-    },
+    }
 
     handleDeleteTaskList() {
         const isConfirmed = confirm(
@@ -102,14 +108,14 @@ const TasksPageContainer = React.createClass({
         }
 
         this.context.router.push('/lists');
-    },
+    }
 
     handleUpdateTaskList({ name }) {
         TaskListsActions.updateTaskList({
             taskListId: this.props.params.id,
             name
         });
-    },
+    }
 
     render() {
         return (
@@ -133,11 +139,15 @@ const TasksPageContainer = React.createClass({
                 />
             </div>
         );
-    },
+    }
 
-    _onChange() {
+    _onChange = () => {
         this.setState(getStateFromFlux());
     }
-});
+}
+
+TasksPageContainer.contextTypes = {
+    router: React.PropTypes.object.isRequired
+};
 
 export default TasksPageContainer;

@@ -1,5 +1,6 @@
-import { clientId } from '../config';
-
+/*global gapi*/
+// import {clientId} from '../config';
+const CLIENT_ID = '805216255136-i2u7r2e71qqp710bffh402c5vmvd3tdt.apps.googleusercontent.com';
 const SCOPES = ['https://www.googleapis.com/auth/tasks', 'https://www.googleapis.com/auth/plus.me'];
 
 export default {
@@ -7,7 +8,7 @@ export default {
         return new Promise((resolve, reject) => {
             gapi.auth.authorize(
                 {
-                    'client_id': clientId,
+                    'client_id': CLIENT_ID,
                     'scope': SCOPES,
                     'immediate': params.immediate,
                     'cookie_policy': 'single_host_origin'
@@ -37,7 +38,7 @@ export default {
         return this.makeRequest(request);
     },
 
-    insertTaskList({ title }) {
+    insertTaskList({title}) {
         const request = gapi.client.tasks.tasklists.insert({
             title: title
         });
@@ -45,7 +46,7 @@ export default {
         return this.makeRequest(request);
     },
 
-    updateTaskList({ taskListId, title }) {
+    updateTaskList({taskListId, title}) {
         const request = gapi.client.tasks.tasklists.update({
             tasklist: taskListId,
             id: taskListId,
@@ -55,7 +56,7 @@ export default {
         return this.makeRequest(request);
     },
 
-    deleteTaskList({ taskListId }) {
+    deleteTaskList({taskListId}) {
         const request = gapi.client.tasks.tasklists.delete({
             tasklist: taskListId
         });
@@ -71,7 +72,7 @@ export default {
         return this.makeRequest(request);
     },
 
-    insertTask({ taskListId, ...params }) {
+    insertTask({taskListId, ...params}) {
         const request = gapi.client.tasks.tasks.insert({
             tasklist : taskListId,
             ...params
@@ -80,7 +81,7 @@ export default {
         return this.makeRequest(request);
     },
 
-    updateTask({ taskListId, taskId, ...params }) {
+    updateTask({taskListId, taskId, ...params}) {
         const request = gapi.client.tasks.tasks.update({
             tasklist : taskListId,
             task     : taskId,
@@ -91,7 +92,7 @@ export default {
         return this.makeRequest(request);
     },
 
-    deleteTask({ taskListId, taskId }) {
+    deleteTask({taskListId, taskId}) {
         const request = gapi.client.tasks.tasks.delete({
             tasklist : taskListId,
             task     : taskId,
@@ -110,4 +111,4 @@ export default {
             );
         });
     }
-}
+};
