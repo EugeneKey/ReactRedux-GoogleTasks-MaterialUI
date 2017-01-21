@@ -1,18 +1,62 @@
-var webpack = require('webpack');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 module.exports = {
-    entry: "./src/main.js",
+    entry: [
+        'webpack-dev-server/client?http://0.0.0.0:3000',
+        'webpack/hot/dev-server',
+        './src/main.js'
+    ],
     output: {
-        path: __dirname + '/public/build/',
-        publicPath: "build/",
-        filename: "bundle.js"
+        publicPath: 'http://0.0.0.0:3000/',
+        path: __dirname + '/public',
+        filename: 'bundle.js'
+    },
+    watch: NODE_ENV == 'development',
+    watchOptions: {
+        aggregateTimeout: 100
+    },
+    devtool: NODE_ENV == 'development' ? 'cheap-inline-module-source-map' : null,
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new ExtractTextPlugin('bundle.css'),
+        new webpack.DefinePlugin({
+            NODE_ENV: JSON.stringify(NODE_ENV)
+        }),
+        new webpack.NoErrorsPlugin()
+    ],
+    resolve: {
+        modulesDirectories: ['node_modules', 'bower_components'],
+        moduleTemplates: ['*', 'index'],
+        extensions: ['', '.js'],
+        root: __dirname + '/src'
+    },
+    resolveLoader: {
+        modulesDirectories: ['node_modules', 'bower_components'],
+        moduleTemplates: ['*-loader', '*'],
+        extensions: ['', '.js']
+    },
+    devServer: {
+        host: '0.0.0.0',
+        port: 3000,
+        contentBase: __dirname + '/public',
+        inline: true,
+        hot: true,
+        historyApiFallback: true
     },
     module: {
         loaders: [
             {
-                test: /\.js$/,
-                loader: "babel",
-                exclude: [/node_modules/, /public/]
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                loaders: ['react-hot', 'babel-loader'],
+                include: [
+                    path.resolve(__dirname, 'src')
+                ],
+                plugins: ['transform-runtime']
             },
             {
                 test: /\.css$/,
@@ -21,34 +65,49 @@ module.exports = {
             },
             {
                 test: /\.less$/,
-                loader: "style-loader!css-loader!autoprefixer-loader!less",
-                exclude: [/node_modules/, /public/]
+                loader: 'style' +
+                '!css?sourceMap' +
+                '!autoprefixer-loader?browsers=last 2 version' +
+                '!less?sourceMap=source-map-less-inline'
             },
             {
-                test: /\.gif$/,
-                loader: "url-loader?limit=10000&mimetype=image/gif"
+                test: /\.(png|jpg|svg|gif)$/,
+                loader: 'file?name=img/[path][name].[ext]'
             },
             {
-                test: /\.jpg$/,
-                loader: "url-loader?limit=10000&mimetype=image/jpg"
+                test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'url?limit=10000&mimetype=application/font-woff&name=fonts/[name].[ext]'
             },
             {
-                test: /\.png$/,
-                loader: "url-loader?limit=10000&mimetype=image/png"
+                test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'url?limit=10000&mimetype=application/font-woff&name=fonts/[name].[ext]'
             },
             {
-                test: /\.svg/,
-                loader: "url-loader?limit=26000&mimetype=image/svg+xml"
+                test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'url?limit=10000&mimetype=application/octet-stream&name=fonts/[name].[ext]'
             },
             {
-                test: /\.jsx$/,
-                loader: "react-hot!babel",
-                exclude: [/node_modules/, /public/]
+                test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'file?name=fonts/[name].[ext]'
             },
             {
-                test: /\.json$/,
-                loader: "json-loader"
+                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'url?limit=10000&mimetype=image/svg+xml&name=fonts/[name].[ext]'
             }
         ]
     }
+};
+
+
+if (NODE_ENV == 'production') {
+    console.log('WTF');
+    module.exports.plugins.push(
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings:       false,
+                drop_console:   true,
+                unsafe:         true
+            }
+        })
+    );
 }

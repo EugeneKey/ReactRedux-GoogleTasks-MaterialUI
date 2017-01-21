@@ -1,66 +1,54 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 
-import SessionStore from '../stores/SessionStore';
 import SessionActions from '../actions/SessionActions';
 
 import LoginPage from '../components/LoginPage.jsx';
 
-function getStateFromFlux() {
-    return {
-        isLoggedIn: SessionStore.isLoggedIn()
-    }
-}
-
 class LoginPageContainer extends Component {
-    state = {
-        ...getStateFromFlux(),
-    }
-
-    componentDidMount() {
-        SessionStore.addChangeListener(this._onChange);
-
-        if (this.state.isLoggedIn) {
-            this.redirectLoggedInUser();
-        }
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-        if (nextState.isLoggedIn) {
-            this.redirectLoggedInUser();
-        }
-    }
-
-    componentWillUnmount() {
-        SessionStore.removeChangeListener(this._onChange);
-    }
-
     handleLogIn() {
-        SessionActions.authorize();
+        this.props.dispatch( SessionActions.authorize() );
     }
 
     redirectLoggedInUser() {
         const { location } = this.props
-
         if (location.state && location.state.nextPathname) {
             this.context.router.replace(location.state.nextPathname);
         } else {
-            this.context.router.replace('/lists');
+            this.context.router.replace('/list');
+        }
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        if (nextProps.session.isLoggedIn) {
+            this.redirectLoggedInUser();
+        }
+    }
+
+    componentDidMount() {
+        if (this.props.session.isLoggedIn) {
+          this.redirectLoggedInUser();
         }
     }
 
     render() {
         return (
-            <LoginPage onLogIn={this.handleLogIn} />
+            <LoginPage onLogIn={this.handleLogIn.bind(this)} />
         );
     }
 
-    _onChange = () => {
-        this.setState(getStateFromFlux());
-    }
 }
 
 LoginPageContainer.contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired,
+//    session: PropTypes.object.isRequired,
+//    dispatch: PropTypes.func.isRequired
 };
 
-export default LoginPageContainer;
+function mapStateToProps(state) {
+    return {
+        session: state.session  
+    };
+}
+
+export default connect(mapStateToProps)(LoginPageContainer);

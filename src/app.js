@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import DevTools from './utils/devtools';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -14,6 +14,7 @@ class App extends Component {
         	<MuiThemeProvider>
             <div className='App'>
                 {this.props.children}
+                { process.env.NODE_ENV !== 'production' ? <DevTools /> : null }
             </div>
            </MuiThemeProvider>
         );

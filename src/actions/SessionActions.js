@@ -1,26 +1,31 @@
-import AppDispatcher from '../dispatcher/AppDispatcher';
 import AppConstants from '../constants/AppConstants';
 
 import api from '../api';
 
 const SessionActions = {
     authorize(immediate = false, callback) {
-        api.authorize({immediate})
-        .then(() => {
-            AppDispatcher.dispatch({
-                type: AppConstants.SESSION_AUTHORIZE_SUCCESS
+        return (dispatch) => {
+            api.authorize({immediate})
+            .then(() => {
+                dispatch({
+                    type: AppConstants.SESSION_AUTHORIZE_SUCCESS,
+                    session: {
+                        isLoggedIn: true
+                    }
+                });
+                if (callback) callback();
+            })
+            .catch((err) => {
+                dispatch({
+                    type: AppConstants.SESSION_AUTHORIZE_FAIL,
+                    session: {
+                        isLoggedIn: false
+                    },
+                    error: err
+                });
+                if (callback) callback();
             });
-
-            if (callback) callback();
-        })
-        .catch((err) => {
-            AppDispatcher.dispatch({
-                type: AppConstants.SESSION_AUTHORIZE_FAIL,
-                error: err
-            });
-
-            if (callback) callback();
-        });
+        };
     }
 };
 
