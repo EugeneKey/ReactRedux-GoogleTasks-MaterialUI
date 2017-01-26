@@ -15,7 +15,7 @@ class LoginPageContainer extends Component {
         if (location.state && location.state.nextPathname) {
             this.context.router.replace(location.state.nextPathname);
         } else {
-            this.context.router.replace('/list');
+            this.context.router.replace('/lists');
         }
     }
 
@@ -41,8 +41,11 @@ class LoginPageContainer extends Component {
 
 LoginPageContainer.contextTypes = {
     router: PropTypes.object.isRequired,
-//    session: PropTypes.object.isRequired,
-//    dispatch: PropTypes.func.isRequired
+};
+
+LoginPageContainer.propsTypes = {
+    session: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {

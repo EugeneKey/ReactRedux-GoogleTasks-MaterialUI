@@ -1,40 +1,29 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
-import TaskListsStore from '../stores/TaskListsStore';
 import TaskListsActions from '../actions/TaskListsActions';
+import SessionActions from '../actions/SessionActions';
 
 import TaskListCreateModal from '../components/TaskListCreateModal.jsx';
 import TasklistsPage from '../components/TasklistsPage.jsx';
 
-function getStateFromFlux() {
-    return {
-        taskLists: TaskListsStore.getTaskLists()
-    }
-}
-
 class TasklistsPageContainer extends Component {
     state = {
-        ...getStateFromFlux(),
         isCreatingTaskList: false
     }
 
     constructor(props) {
         super(props);
-
-        TaskListsActions.loadTaskLists();
+        this.props.dispatch(TaskListsActions.loadTaskLists());
 
         // Bind `this` within methods
         this.handleAddTaskList = this.handleAddTaskList.bind(this);
         this.handleTaskListCreateModalClose = this.handleTaskListCreateModalClose.bind(this);
-        this.handleTaskListSubmit = this.handleTaskListSubmit.bind(this);      
-    }
-
-    componentDidMount() {
-        TaskListsStore.addChangeListener(this._onChange);
-    }
-
-    componentWillUnmount() {
-        TaskListsStore.removeChangeListener(this._onChange);
+        this.handleTaskListSubmit = this.handleTaskListSubmit.bind(this);
+        this.handleLogOut = this.handleLogOut.bind(this);
+        this.handleRedirect = this.handleRedirect.bind(this);
     }
 
     handleAddTaskList() {
@@ -46,20 +35,29 @@ class TasklistsPageContainer extends Component {
     }
 
     handleTaskListSubmit(taskList) {
-        TaskListsActions.createTaskList(taskList);
+        this.props.dispatch(TaskListsActions.createTaskList(taskList));
 
         this.setState({ isCreatingTaskList : false });
+    }
+
+    handleLogOut() {
+        this.props.dispatch(SessionActions.logout());
+    }
+
+    handleRedirect(link) {
+        browserHistory.push(link);
     }
 
     render() {
         return (
             <div>
                 <TasklistsPage
-                    taskLists={this.state.taskLists}
+                    taskLists={this.props.tasklists.listTaskLists}
                     selectedListId={this.props.params.id}
                     page={this.props.children}
                     onAddTaskList={this.handleAddTaskList}
-                    onLogOut={this.onLogOut}
+                    onLogOut={this.handleLogOut}
+                    onRedirect={this.handleRedirect}
                 />
 
                 <TaskListCreateModal
@@ -70,14 +68,17 @@ class TasklistsPageContainer extends Component {
             </div>
         );
     }
-
-    _onChange = () => {
-        this.setState(getStateFromFlux());
-    }
 }
 
-TasklistsPageContainer.contextTypes = {
-    router: React.PropTypes.object.isRequired
+TasklistsPageContainer.propsTypes = {
+    tasklists: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired
 };
 
-export default TasklistsPageContainer;
+function mapStateToProps(state) {
+    return {
+        tasklists: state.tasklists
+    };
+}
+
+export default connect(mapStateToProps)(TasklistsPageContainer);

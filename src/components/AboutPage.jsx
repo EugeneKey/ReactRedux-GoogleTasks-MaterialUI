@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import Paper from 'material-ui/Paper';
 
-import './AboutPage.less';
+import '../styles/AboutPage.less';
 
 class AboutPage extends Component {
     render() {

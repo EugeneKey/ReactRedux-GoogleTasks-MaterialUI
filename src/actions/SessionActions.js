@@ -26,6 +26,17 @@ const SessionActions = {
                 if (callback) callback();
             });
         };
+    },
+
+    logout() {
+        return (dispatch) => {
+                dispatch({
+                    type: AppConstants.SESSION_AUTHORIZE_SUCCESS,
+                    session: {
+                        isLoggedIn: false
+                    }
+                });
+        };
     }
 };
 

@@ -8,7 +8,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 
 import Task from './Task.jsx';
 
-import './TasksPage.less';
+import '../styles/TasksPage.less';
 
 const ENTER_KEY = 13;
 const ESC_KEY = 27;
@@ -24,7 +24,7 @@ class TasksPage extends Component {
         // Bind `this` within methods
         this.handleEditTaskList = this.handleEditTaskList.bind(this);
         this.handleSubmitTaskList = this.handleSubmitTaskList.bind(this);
-        this.handleTaskListEditKeyDown = this.handleTaskListEditKeyDown.bind(this);      
+        this.handleTaskListEditKeyDown = this.handleTaskListEditKeyDown.bind(this);   
     }
 
     handleEditTaskList() {
@@ -63,7 +63,7 @@ class TasksPage extends Component {
         return (
             <div className='TasksPage__tasks'>
                 {
-                    this.props.tasks.map(task =>
+                    this.props.tasks.listTasks.map(task =>
                         <Task
                             key={task.id}
                             text={task.text}
@@ -81,11 +81,11 @@ class TasksPage extends Component {
     }
 
     render() {
-        if (this.props.error) {
+        if (this.props.tasks.error) {
             return (
                 <div className='TasksPage'>
                     <div className='TasksPage__error'>
-                        {this.props.error}
+                        {this.props.tasks.error}
                     </div>
                 </div>
             );
@@ -102,7 +102,7 @@ class TasksPage extends Component {
                                 className='TasksPage__title-input'
                                 defaultValue={this.props.taskList.name}
                                 onKeyDown={this.handleTaskListEditKeyDown}
-                                onBlur={this.cancelEditingTaskList}
+                                onBlur={this.cancelEditingTaskList.bind(this)}
                             />
                         :
                             <h2
@@ -124,7 +124,7 @@ class TasksPage extends Component {
                 </div>
 
                 {
-                    this.props.isLoadingTasks
+                    this.props.tasks.isLoadingTasks
                     ?
                         <CircularProgress />
                     :

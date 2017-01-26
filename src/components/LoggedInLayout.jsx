@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './LoggedInLayout.less';
+import '../styles/LoggedInLayout.less';
 
 class LoggedInLayout extends Component {
     render() {

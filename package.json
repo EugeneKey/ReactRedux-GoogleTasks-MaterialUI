@@ -18,6 +18,8 @@
     "classnames": "^2.2.5",
     "events": "^1.1.1",
     "flux": "^2.1.1",
+    "google-auth-library": "^0.10.0",
+    "googleapis": "^16.1.0",
     "keymirror": "^0.1.1",
     "less": "^2.7.2",
     "material-ui": "^0.16.6",

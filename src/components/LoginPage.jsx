@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
-import './LoginPage.less';
+import '../styles/LoginPage.less';
 
 class LoginPage extends Component {
     render() {

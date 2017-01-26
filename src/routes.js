@@ -32,6 +32,7 @@ export default class AllRouter extends Component {
 
   requireAuth(nextState, replace) {
     const { getState } = this.props;
+    console.log(getState().session.isLoggedIn);
     if (!getState().session.isLoggedIn) {
         replace({
             pathname: '/login',

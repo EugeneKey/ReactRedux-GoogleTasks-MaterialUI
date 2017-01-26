@@ -8,18 +8,20 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import DatePicker from 'material-ui/DatePicker';
 
 import NoteIcon from 'material-ui/svg-icons/communication/message';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
-import './Task.less';
+import '../styles/Task.less';
 
 const ENTER_KEY = 13;
 const ESC_KEY = 27;
 
 class Task extends Component {
     state = {
-        isEditing: false
+        isEditing: false,
+        due: this.props.due
     }    
 
     constructor(props) {
@@ -31,10 +33,13 @@ class Task extends Component {
         this.handleSave = this.handleSave.bind(this);
         this.handleCheck = this.handleCheck.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleDueChange = this.handleDueChange.bind(this);
     }
 
     handleEdit(e) {
-        this.setState({ isEditing: true }, this.focusInput);
+        this.setState({ 
+            isEditing: true
+         }, this.focusInput);
     }
 
     handleCancel() {
@@ -61,6 +66,12 @@ class Task extends Component {
         }
     }
 
+    handleDueChange(e, date) {
+        this.setState({
+            due: date
+        });
+    }
+
     focusInput() {
         this.text.focus();
     }
@@ -68,9 +79,9 @@ class Task extends Component {
     saveTask() {
         this.props.onUpdate({ 
             text: this.text.value,
-            note: this.note.value
+            note: this.note.value,
+            due: this.state.due
         });
-
         this.setState({ isEditing: false });
     }
 
@@ -80,7 +91,6 @@ class Task extends Component {
 
     render() {
         const { text, note, due, isCompleted, onDelete } = this.props;
-        
         return (
             this.state.isEditing
             ?
@@ -99,6 +109,14 @@ class Task extends Component {
                         defaultValue={note}
                         onKeyDown={this.handleKeyDown}
                         ref={c => this.note = c}
+                    />
+
+                    <DatePicker
+                        autoOk
+                        fullWidth
+                        value={this.state.due}
+                        onChange={this.handleDueChange}
+                        floatingLabelText='Enter due time'
                     />
 
                     <div className='Task__toolbar'>
@@ -130,10 +148,10 @@ class Task extends Component {
                             }
                         </div>
                         {
-                            due
+                            this.props.due
                             ?
                                 <div className='Task__due'>
-                                    {'due ' + moment(due).fromNow()}
+                                    {'due ' + new Intl.DateTimeFormat().format(due) /*moment(due).fromNow()*/}
                                 </div>
                             :
                                 null

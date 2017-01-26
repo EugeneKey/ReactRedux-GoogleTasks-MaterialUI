@@ -2,9 +2,8 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import SessionActions from './actions/SessionActions';
-
-import { browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
+import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store';
 import AllRouter from './routes';

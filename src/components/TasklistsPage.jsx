@@ -10,12 +10,14 @@ import FolderIcon from 'material-ui/svg-icons/file/folder';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import Colors from 'material-ui/styles/colors';
 
-import './TasklistsPage.less';
+import '../styles/TasklistsPage.less';
 
 class TasklistsPage extends Component {
-    render() {
-        const { router } = this.context;
+    handleRedirect(link) {
+        this.props.onRedirect(link);
+    }
 
+    render() {
         return (
             <div className='TasklistsPage'>
                 <div className='TasklistsPage__menu'>
@@ -28,12 +30,12 @@ class TasklistsPage extends Component {
                             <ListItem
                                 leftIcon={<HomeIcon />}
                                 primaryText="Home"
-                                onClick={router.push.bind(null, `/lists`)}
+                                onClick={this.handleRedirect.bind(this, `/lists`)}
                             />
                             <ListItem
                                 leftIcon={<ListIcon />}
                                 primaryText="About"
-                                onClick={router.push.bind(null, `/about`)}
+                                onClick={this.handleRedirect.bind(this, `/about`)}
                             />
                         </List>
                         <Divider />
@@ -52,7 +54,7 @@ class TasklistsPage extends Component {
                                                 null
                                         }                                        
                                         primaryText={list.name}
-                                        onClick={router.push.bind(null, `/lists/${list.id}`)}
+                                        onClick={this.handleRedirect.bind(this, `/lists/${list.id}`)}
                                     />
                                 )
                             }
@@ -79,9 +81,5 @@ class TasklistsPage extends Component {
         );
     }
 }
-
-TasklistsPage.contextTypes = {
-    router: React.PropTypes.object.isRequired
-};
 
 export default TasklistsPage;
