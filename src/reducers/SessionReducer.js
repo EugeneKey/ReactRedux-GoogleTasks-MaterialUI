@@ -16,6 +16,12 @@ function sessionReducer(state = initialState, action) {
                 isLoggedIn: action.session.isLoggedIn
             });
 
+        case AppConstants.SESSION_LOGOUT_SUCCESS:
+            return Object.assign({}, state, {
+                isLoggedIn: action.session.isLoggedIn
+            });
+
+
         default:
             return state;
     }

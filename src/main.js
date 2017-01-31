@@ -12,8 +12,8 @@ const store = configureStore();
 const { getState } = store;
 const history = syncHistoryWithStore(browserHistory, store);
 
-window.handleGoogleApiLoaded = () => {
-    store.dispatch( SessionActions.authorize(true, renderApp) );
+window.handleClientLoad = () => {
+    store.dispatch( SessionActions.loadClient(renderApp) );
 };
 
 function renderApp() {

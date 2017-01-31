@@ -10,7 +10,7 @@ class LoginPage extends Component {
             <div className='LoginPage'>
                 <div className='LoginPage__banner'>
                     <div className='LoginPage__text'>
-                        <h1>Almost Google tasks</h1>
+                        <h1>Material UI Google Tasks</h1>
                         <p>Organise your life!</p>
                         <RaisedButton
                             className='LoginPage__button'

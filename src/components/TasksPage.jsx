@@ -71,7 +71,7 @@ class TasksPage extends Component {
                             due={task.due}
                             isCompleted={task.isCompleted}
                             onDelete={this.props.onTaskDelete.bind(null, task.id)}
-                            onStatusChange={this.props.onTaskStatusChange.bind(null, task.id)}
+                            onStatusChange={this.props.onTaskStatusChange.bind(null, task)}
                             onUpdate={this.props.onTaskUpdate.bind(null, task.id)}
                         />
                     )

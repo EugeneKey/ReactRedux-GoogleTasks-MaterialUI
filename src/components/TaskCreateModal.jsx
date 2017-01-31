@@ -108,6 +108,8 @@ class TaskCreateModal extends Component {
                 <TextField
                     fullWidth
                     value={note}
+                    multiLine={true}
+                    rows={2}
                     onChange={this.handleNoteChange}
                     hintText='e.g. 2.6% whole milk'
                     floatingLabelText='Enter task note'

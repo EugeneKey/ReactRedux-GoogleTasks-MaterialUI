@@ -21,8 +21,8 @@ export default class AllRouter extends Component {
             <Route component={App} path='/'>
                 <Route path='/login' component={LoginPage} />
                 <Route component={LoggedInLayout} onEnter={this.requireAuth}>
-                    <Route path='/about' component={AboutPage} />
                     <Route path='/lists' component={TasklistsPage}>
+                        <Route path='/about' component={AboutPage} />
                         <Route path='/lists/:id' component={TasksPage} />
                     </Route>
                 </Route>
@@ -32,7 +32,6 @@ export default class AllRouter extends Component {
 
   requireAuth(nextState, replace) {
     const { getState } = this.props;
-    console.log(getState().session.isLoggedIn);
     if (!getState().session.isLoggedIn) {
         replace({
             pathname: '/login',

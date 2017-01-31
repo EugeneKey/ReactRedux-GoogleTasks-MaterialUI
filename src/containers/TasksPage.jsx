@@ -37,11 +37,12 @@ class TasksPageContainer extends Component {
         }
     }
 
-    handleTaskStatusChange(taskId, { isCompleted }) {
+    handleTaskStatusChange(task, { isCompleted }) {
         this.props.dispatch(TasksActions.updateTaskStatus({
             taskListId: this.props.params.id,
-            taskId: taskId,
-            isCompleted: isCompleted
+            taskId: task.id,
+            isCompleted: isCompleted,
+            due: task.due
         }));
     }
 

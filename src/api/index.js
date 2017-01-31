@@ -1,32 +1,53 @@
 /*global gapi*/
 // import {clientId} from '../config';
 const CLIENT_ID = '805216255136-i2u7r2e71qqp710bffh402c5vmvd3tdt.apps.googleusercontent.com';
-const SCOPES = ['https://www.googleapis.com/auth/tasks', 'https://www.googleapis.com/auth/plus.me'];
+const SCOPES = 'https://www.googleapis.com/auth/tasks https://www.googleapis.com/auth/plus.me';
+const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/tasks/v1/rest'];
+
+//'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/tasks/'
 
 export default {
-    authorize(params) {
+    loadClient() {
         return new Promise((resolve, reject) => {
-            gapi.auth.authorize(
-                {
-                    'client_id': CLIENT_ID,
-                    'scope': SCOPES,
-                    'immediate': params.immediate,
-                    'cookie_policy': 'single_host_origin'
-                },
-                authResult => {
-                    if (authResult.error) {
-                        return reject(authResult.error);
-                    }
+            gapi.load('client:auth2', () => {
+                gapi.client.init({
+                    discoveryDocs: DISCOVERY_DOCS,
+                    clientId: CLIENT_ID,
+                    scope: SCOPES
+                })
+                .then(() => {
+                    gapi.auth2.getAuthInstance().isSignedIn.get()
+                    ? resolve(true)
+                    : reject('need login')
+                });
+            });
+        });  
+    },
 
-                    return gapi.client.load('tasks', 'v1', () => gapi.client.load('plus', 'v1', () => resolve() ) );
-                }
-            );
+    logIn() {
+        return new Promise((resolve, reject) => {
+            gapi.auth2.getAuthInstance().signIn()
+            .then(() => {
+                return gapi.client.load('tasks', 'v1', () => gapi.client.load('plus', 'v1', () => resolve() ) );
+            })
+            .then(null, err => {
+                return reject(err);
+            });
+        });
+    },
+
+    signOut() {
+        return new Promise((resolve, reject) => {
+            gapi.auth2.getAuthInstance().signOut()
+            .then(() => {
+                gapi.auth2.getAuthInstance().disconnect();
+                return resolve(true);
+            });
         });
     },
 
     listTaskLists() {
-        const request = gapi.client.tasks.tasklists.list();
-
+        const request =  gapi.client.tasks.tasklists.list();
         return this.makeRequest(request);
     },
 

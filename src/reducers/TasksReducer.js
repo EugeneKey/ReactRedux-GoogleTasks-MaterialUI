@@ -43,7 +43,6 @@ function tasksReducer(state = initialState, action) {
         }
 
         case AppConstants.TASKS_LOAD_SUCCESS: {
-//            console.log(action.items);
             return Object.assign({}, state, {
                 listTasks: action.items.map(formatTask),
                 isLoadingTasks: false
@@ -59,25 +58,26 @@ function tasksReducer(state = initialState, action) {
         }
 
         case AppConstants.TASK_UPDATE_REQUEST: {
-            const updatedTaskIndex = _listTasks.findIndex(task => task.id === action.taskId);
-            _listTasks[updatedTaskIndex].isCompleted = action.isCompleted !== undefined ? action.isCompleted : _listTasks[updatedTaskIndex].isCompleted;
-            _listTasks[updatedTaskIndex].text = action.text || _listTasks[updatedTaskIndex].text;
+            const i = _listTasks.findIndex(task => task.id === action.taskId);
+            _listTasks[i].isCompleted = action.isCompleted !== undefined ? action.isCompleted : _listTasks[i].isCompleted;
+            _listTasks[i].text = action.text || _listTasks[i].text;
+            _listTasks[i].due = action.due || _listTasks[i].due;
             return Object.assign({}, state, {
                 listTasks: _listTasks
             });
         }
 
         case AppConstants.TASK_UPDATE_SUCCESS: {
-            const updatedTaskIndex = _listTasks.findIndex(task => task.id === action.taskId);
-            _listTasks[updatedTaskIndex] = formatTask(action.task);
+            const i = _listTasks.findIndex(task => task.id === action.taskId);
+            _listTasks[i] = formatTask(action.task);
             return Object.assign({}, state, {
                 listTasks: _listTasks
             });
         }
 
         case AppConstants.TASK_DELETE_SUCCESS: {
-            const deletedTaskIndex = _listTasks.findIndex(task => task.id === action.taskId);
-            _listTasks.splice(deletedTaskIndex, 1);
+            const i = _listTasks.findIndex(task => task.id === action.taskId);
+            _listTasks.splice(i, 1);
             return Object.assign({}, state, {
                 listTasks: _listTasks
             });

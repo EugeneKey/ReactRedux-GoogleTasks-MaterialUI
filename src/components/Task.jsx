@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import moment from 'moment';
+//import moment from 'moment';
 
 import Checkbox from 'material-ui/Checkbox';
 import ListItem from 'material-ui/List';
@@ -20,8 +20,7 @@ const ESC_KEY = 27;
 
 class Task extends Component {
     state = {
-        isEditing: false,
-        due: this.props.due
+        isEditing: false
     }    
 
     constructor(props) {
@@ -33,7 +32,6 @@ class Task extends Component {
         this.handleSave = this.handleSave.bind(this);
         this.handleCheck = this.handleCheck.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleDueChange = this.handleDueChange.bind(this);
     }
 
     handleEdit(e) {
@@ -66,12 +64,6 @@ class Task extends Component {
         }
     }
 
-    handleDueChange(e, date) {
-        this.setState({
-            due: date
-        });
-    }
-
     focusInput() {
         this.text.focus();
     }
@@ -80,7 +72,7 @@ class Task extends Component {
         this.props.onUpdate({ 
             text: this.text.value,
             note: this.note.value,
-            due: this.state.due
+            due: this.due.state.date
         });
         this.setState({ isEditing: false });
     }
@@ -110,15 +102,24 @@ class Task extends Component {
                         onKeyDown={this.handleKeyDown}
                         ref={c => this.note = c}
                     />
-
-                    <DatePicker
-                        autoOk
-                        fullWidth
-                        value={this.state.due}
-                        onChange={this.handleDueChange}
-                        floatingLabelText='Enter due time'
-                    />
-
+                    {
+                        due
+                        ?
+                            <DatePicker
+                                autoOk
+                                fullWidth
+                                defaultDate={due}
+                                ref={c => this.due = c}
+                                floatingLabelText='Enter due time'
+                            />
+                        :
+                            <DatePicker
+                                autoOk
+                                fullWidth
+                                ref={c => this.due = c}
+                                floatingLabelText='Enter due time'
+                            />
+                    }
                     <div className='Task__toolbar'>
                         <div>
                             <RaisedButton primary onClick={this.handleSave} label='Save' />
@@ -134,7 +135,7 @@ class Task extends Component {
                         onCheck={this.handleCheck}
                     />
 
-                    <div className='Task__text' onClick={this.handleEdit}>
+                    <div className={'Task__text '+ (isCompleted ? 'complete' : '')} onClick={this.handleEdit}>
                         <div className='Task__title'>
                             {text}
                             {
@@ -148,10 +149,10 @@ class Task extends Component {
                             }
                         </div>
                         {
-                            this.props.due
+                            due
                             ?
                                 <div className='Task__due'>
-                                    {'due ' + new Intl.DateTimeFormat().format(due) /*moment(due).fromNow()*/}
+                                    {'due ' + new Intl.DateTimeFormat().format(due)}
                                 </div>
                             :
                                 null

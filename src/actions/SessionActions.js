@@ -1,11 +1,12 @@
 import AppConstants from '../constants/AppConstants';
+import { browserHistory } from 'react-router';
 
 import api from '../api';
 
 const SessionActions = {
-    authorize(immediate = false, callback) {
+    loadClient(callback) {
         return (dispatch) => {
-            api.authorize({immediate})
+            api.loadClient()
             .then(() => {
                 dispatch({
                     type: AppConstants.SESSION_AUTHORIZE_SUCCESS,
@@ -13,7 +14,7 @@ const SessionActions = {
                         isLoggedIn: true
                     }
                 });
-                if (callback) callback();
+                if (typeof callback === 'function') callback();
             })
             .catch((err) => {
                 dispatch({
@@ -23,20 +24,45 @@ const SessionActions = {
                     },
                     error: err
                 });
-                if (callback) callback();
+                if (typeof callback === 'function') callback();
             });
-        };
+        }
     },
-
-    logout() {
+    authorize() {
         return (dispatch) => {
+            api.logIn()
+            .then(() => {
                 dispatch({
                     type: AppConstants.SESSION_AUTHORIZE_SUCCESS,
+                    session: {
+                        isLoggedIn: true
+                    }
+                });
+            })
+            .catch((err) => {
+                dispatch({
+                    type: AppConstants.SESSION_AUTHORIZE_FAIL,
+                    session: {
+                        isLoggedIn: false
+                    },
+                    error: err
+                });
+            });
+        }
+    },
+    signOut() {
+        return (dispatch) => {
+            api.signOut()
+            .then(() => {
+                dispatch({
+                    type: AppConstants.SESSION_LOGOUT_SUCCESS,
                     session: {
                         isLoggedIn: false
                     }
                 });
-        };
+                browserHistory.push('/login');
+            });
+        }
     }
 };
 

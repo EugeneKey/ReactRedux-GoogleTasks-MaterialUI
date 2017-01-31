@@ -1,17 +1,17 @@
 import AppConstants from '../constants/AppConstants';
 
 import api from '../api';
-
+// нужно добавить проверку что due это валидная дата
 function fixUTC(due) {
     if (due) {
         due = new Date(due);
         if (due.getTimezoneOffset() != 0) {
             due.setTime(due.getTime() - due.getTimezoneOffset()*60000);
         }
-        return due.toISOString();
+        return due;
     }
     else {
-        return due
+        return null;
     }
 }
 
@@ -45,11 +45,11 @@ const TasksActions = {
                 taskId : params.taskId,
                 isCompleted : params.isCompleted
             });
-
             api.updateTask({
                 taskListId: params.taskListId,
                 taskId: params.taskId,
-                status: params.isCompleted ? 'completed' : 'needsAction'
+                status: params.isCompleted ? 'completed' : 'needsAction',
+                due: fixUTC(params.due)
             })
             .then(data => {
                 dispatch({
@@ -72,7 +72,8 @@ const TasksActions = {
             dispatch({
                 type   : AppConstants.TASK_UPDATE_REQUEST,
                 taskId : params.taskId,
-                text : params.text
+                text : params.text,
+                due: fixUTC(params.due)
             });
 
             api.updateTask({

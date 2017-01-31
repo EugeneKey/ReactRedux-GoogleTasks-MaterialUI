@@ -41,7 +41,7 @@ class TasklistsPageContainer extends Component {
     }
 
     handleLogOut() {
-        this.props.dispatch(SessionActions.logout());
+        this.props.dispatch(SessionActions.signOut());
     }
 
     handleRedirect(link) {
