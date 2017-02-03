@@ -23,7 +23,7 @@ module.exports = {
         "flowtype"
     ],
     "rules": {
-        "indent": [2, 4, {"SwitchCase": 1}],
+        "indent": [2, 2, {"SwitchCase": 1}],
         "linebreak-style": [
             "error",
             "unix"

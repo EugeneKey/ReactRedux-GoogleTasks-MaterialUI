@@ -6,8 +6,8 @@ import { push } from 'react-router-redux';
 import TaskListsActions from '../actions/TaskListsActions';
 import SessionActions from '../actions/SessionActions';
 
-import TaskListCreateModal from '../components/TaskListCreateModal.jsx';
-import TasklistsPage from '../components/TasklistsPage.jsx';
+import TaskListCreateModal from '../components/TaskListCreateModal';
+import TasklistsPage from '../components/TasklistsPage';
 
 class TasklistsPageContainer extends Component {
     state = {

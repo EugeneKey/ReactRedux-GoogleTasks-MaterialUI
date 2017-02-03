@@ -5,8 +5,8 @@ import { browserHistory } from 'react-router';
 import TasksActions from '../actions/TasksActions';
 import TaskListsActions from '../actions/TaskListsActions';
 
-import TasksPage from '../components/TasksPage.jsx';
-import TaskCreateModal from '../components/TaskCreateModal.jsx';
+import TasksPage from '../components/TasksPage';
+import TaskCreateModal from '../components/TaskCreateModal';
 
 class TasksPageContainer extends Component {    
     state = {

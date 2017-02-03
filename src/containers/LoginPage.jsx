@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import SessionActions from '../actions/SessionActions';
 
-import LoginPage from '../components/LoginPage.jsx';
+import LoginPage from '../components/LoginPage';
 
 class LoginPageContainer extends Component {
     handleLogIn() {
