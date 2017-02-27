@@ -9,19 +9,13 @@ const SessionActions = {
       api.loadClient()
             .then(() => {
               dispatch({
-                type: AppConstants.SESSION_AUTHORIZE_SUCCESS,
-                session: {
-                  isLoggedIn: true
-                }
+                type: AppConstants.SESSION_AUTHORIZE_SUCCESS
               });
               if (typeof callback === 'function') callback();
             })
             .catch((err) => {
               dispatch({
                 type: AppConstants.SESSION_AUTHORIZE_FAIL,
-                session: {
-                  isLoggedIn: false
-                },
                 error: err
               });
               if (typeof callback === 'function') callback();
@@ -33,18 +27,12 @@ const SessionActions = {
       api.logIn()
             .then(() => {
               dispatch({
-                type: AppConstants.SESSION_AUTHORIZE_SUCCESS,
-                session: {
-                  isLoggedIn: true
-                }
+                type: AppConstants.SESSION_AUTHORIZE_SUCCESS
               });
             })
             .catch((err) => {
               dispatch({
                 type: AppConstants.SESSION_AUTHORIZE_FAIL,
-                session: {
-                  isLoggedIn: false
-                },
                 error: err
               });
             });
@@ -55,10 +43,7 @@ const SessionActions = {
       api.signOut()
             .then(() => {
               dispatch({
-                type: AppConstants.SESSION_LOGOUT_SUCCESS,
-                session: {
-                  isLoggedIn: false
-                }
+                type: AppConstants.SESSION_LOGOUT_SUCCESS
               });
               browserHistory.push('/login');
             });

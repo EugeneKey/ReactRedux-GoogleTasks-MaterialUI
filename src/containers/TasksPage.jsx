@@ -17,7 +17,6 @@ class TasksPageContainer extends Component {
         super(props);     
 
         // Bind `this` within methods
-        this.handleTaskStatusChange = this.handleTaskStatusChange.bind(this);
         this.handleTaskUpdate = this.handleTaskUpdate.bind(this);
         this.handleTaskDelete = this.handleTaskDelete.bind(this);
         this.handleAddTask = this.handleAddTask.bind(this);
@@ -37,20 +36,11 @@ class TasksPageContainer extends Component {
         }
     }
 
-    handleTaskStatusChange(task, { isCompleted }) {
-        this.props.dispatch(TasksActions.updateTaskStatus({
-            taskListId: this.props.params.id,
-            taskId: task.id,
-            isCompleted: isCompleted,
-            due: task.due
-        }));
-    }
-
-    handleTaskUpdate(taskId, task) {
+    handleTaskUpdate(task, updateTask) {
         this.props.dispatch(TasksActions.updateTask({
             taskListId: this.props.params.id,
-            taskId: taskId,
-            ...task
+            ...task,
+            ...updateTask
         }));
     }
 
@@ -81,7 +71,6 @@ class TasksPageContainer extends Component {
         const isConfirmed = confirm(
             'Are you sure you want delete this task list? All tasks in it will be deleted too'
         );
-
         if (isConfirmed) {
             this.props.dispatch(TaskListsActions.deleteTaskList({
                 taskListId: this.props.params.id
@@ -107,7 +96,6 @@ class TasksPageContainer extends Component {
                     onAddTask={this.handleAddTask}
                     onDeleteTaskList={this.handleDeleteTaskList}
                     onTaskDelete={this.handleTaskDelete}
-                    onTaskStatusChange={this.handleTaskStatusChange}
                     onTaskUpdate={this.handleTaskUpdate}
                 />
                 <TaskCreateModal

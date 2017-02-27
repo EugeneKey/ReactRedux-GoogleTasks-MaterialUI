@@ -45,7 +45,12 @@ module.exports = {
         contentBase: __dirname + '/public',
         inline: true,
         hot: true,
-        historyApiFallback: true
+        historyApiFallback: true,
+        stats: {
+            colors: true,
+            chunks: false,
+            'normal': true
+        }
     },
     module: {
         loaders: [

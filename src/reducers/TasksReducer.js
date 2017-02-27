@@ -33,7 +33,6 @@ function getErrorMessageByCode(code) {
 }
 
 function tasksReducer(state = initialState, action) {
-  var _listTasks = state.listTasks;
   switch(action.type) {
     case AppConstants.TASKS_LOAD_REQUEST: {
       return Object.assign({}, state, {
@@ -58,20 +57,26 @@ function tasksReducer(state = initialState, action) {
     }
 
     case AppConstants.TASK_UPDATE_REQUEST: {
-      const i = _listTasks.findIndex(task => task.id === action.taskId);
-      _listTasks[i].isCompleted = action.isCompleted !== undefined ? action.isCompleted : _listTasks[i].isCompleted;
-      _listTasks[i].text = action.text || _listTasks[i].text;
-      _listTasks[i].due = action.due || _listTasks[i].due;
       return Object.assign({}, state, {
-        listTasks: _listTasks
+        listTasks:
+          state.listTasks.map((task) => {
+            if (task.id === action.task.id) {
+              return formatTask(action.task)
+            }
+            return task
+          }),
       });
     }
 
     case AppConstants.TASK_UPDATE_SUCCESS: {
-      const i = _listTasks.findIndex(task => task.id === action.taskId);
-      _listTasks[i] = formatTask(action.task);
       return Object.assign({}, state, {
-        listTasks: _listTasks
+        listTasks: 
+          state.listTasks.map((task) => {
+            if (task.id === action.task.id) {
+              return formatTask(action.task)
+            }
+            return task
+          }),
       });
     }
 
@@ -82,10 +87,9 @@ function tasksReducer(state = initialState, action) {
     }
 
     case AppConstants.TASK_CREATE_SUCCESS: {
-      const newTask = formatTask(action.task);
-      _listTasks.unshift(newTask);
       return Object.assign({}, state, {
-        listTasks: _listTasks
+        listTasks: 
+          [].concat(formatTask(action.task), state.listTasks)
       });
     }
 
@@ -96,10 +100,9 @@ function tasksReducer(state = initialState, action) {
     }    
 
     case AppConstants.TASK_DELETE_SUCCESS: {
-      const i = _listTasks.findIndex(task => task.id === action.taskId);
-      _listTasks.splice(i, 1);
+      let i = state.listTasks.findIndex(task => task.id === action.taskId);
       return Object.assign({}, state, {
-        listTasks: _listTasks
+        listTasks: state.listTasks.slice(0,i).concat(state.listTasks.slice(++i))
       });
     }
 

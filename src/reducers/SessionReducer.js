@@ -8,20 +8,19 @@ function sessionReducer(state = initialState, action) {
   switch (action.type) {
     case AppConstants.SESSION_AUTHORIZE_SUCCESS:
       return Object.assign({}, state, {
-        isLoggedIn: action.session.isLoggedIn
+        isLoggedIn: true
       });
 
     case AppConstants.SESSION_AUTHORIZE_FAIL:
       return Object.assign({}, state, {
-        isLoggedIn: action.session.isLoggedIn
+        isLoggedIn: false
       });
 
     case AppConstants.SESSION_LOGOUT_SUCCESS:
       return Object.assign({}, state, {
-        isLoggedIn: action.session.isLoggedIn
+        isLoggedIn: false
       });
-
-
+      
     default:
       return state;
   }

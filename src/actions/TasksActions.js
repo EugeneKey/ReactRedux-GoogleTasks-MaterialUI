@@ -38,56 +38,31 @@ const TasksActions = {
     };
   },
 
-  updateTaskStatus(params) {
-    return (dispatch) => {
-      dispatch({
-        type   : AppConstants.TASK_UPDATE_REQUEST,
-        taskId : params.taskId,
-        isCompleted : params.isCompleted
-      });
-      api.updateTask({
-        taskListId: params.taskListId,
-        taskId: params.taskId,
-        status: params.isCompleted ? 'completed' : 'needsAction',
-        due: fixUTC(params.due)
-      })
-            .then(data => {
-              dispatch({
-                type   : AppConstants.TASK_UPDATE_SUCCESS,
-                task   : data,
-                taskId : params.taskId
-              });
-            })
-            .catch(err => {
-              dispatch({
-                type  : AppConstants.TASK_UPDATE_FAIL,
-                error : err
-              });
-            });
-    };
-  },
-
   updateTask(params) {
     return (dispatch) => {
       dispatch({
         type   : AppConstants.TASK_UPDATE_REQUEST,
-        taskId : params.taskId,
-        text : params.text,
-        due: fixUTC(params.due)
+        task   : {
+                id      : params.id,
+                title   : params.text,
+                notes   : params.note,
+                status  : params.isCompleted ? 'completed' : 'needsAction',
+                due     : fixUTC(params.due)
+        }
       });
 
       api.updateTask({
-        taskListId: params.taskListId,
-        taskId: params.taskId,
-        title: params.text,
-        notes: params.note,
-        due: fixUTC(params.due)
+        taskListId  : params.taskListId,
+        taskId      : params.id,
+        title       : params.text,
+        notes       : params.note,
+        status      : params.isCompleted ? 'completed' : 'needsAction',
+        due         : fixUTC(params.due)
       })
             .then(data => {
               dispatch({
                 type   : AppConstants.TASK_UPDATE_SUCCESS,
-                task   : data,
-                taskId : params.taskId
+                task   : data
               });
             })
             .catch(err => {

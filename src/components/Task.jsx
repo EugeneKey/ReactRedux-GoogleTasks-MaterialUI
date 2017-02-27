@@ -47,7 +47,8 @@ class Task extends Component {
   }
 
   handleCheck() {
-    this.props.onStatusChange({
+    //console.log(this);
+    this.props.onUpdate({
       isCompleted: !this.props.isCompleted
     });
   }
@@ -67,6 +68,7 @@ class Task extends Component {
   }
 
   saveTask() {
+    //console.log(this);
     this.props.onUpdate({ 
       text: this.text.value,
       note: this.note.value,

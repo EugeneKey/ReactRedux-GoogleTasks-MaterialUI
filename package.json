@@ -4,16 +4,19 @@
   "description": "This is demo project",
   "main": "main.js",
   "scripts": {
-    "start": "webpack-dev-server --progress --inline --hot",
+    "start": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "devserver": "webpack-dev-server --debug --hot --devtool eval-source-map --output-pathinfo --watch --colors --inline --content-base public --port 3000 --host 0.0.0.0",
-    "dev": "NODE_ENV=development && npm run start",
+    "dev": "NODE_ENV=development && yarn run start",
     "prod": "NODE_ENV=production && webpack",
     "lint": "eslint ./src",
     "build": "webpack -p"
   },
   "author": "Eugene Key",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EugeneKey/ReactRedux-GoogleTasks-MaterialUI.git"
+  },
   "dependencies": {
     "classnames": "^2.2.5",
     "events": "^1.1.1",
