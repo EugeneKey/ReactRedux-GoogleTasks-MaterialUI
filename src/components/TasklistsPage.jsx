@@ -30,12 +30,12 @@ class TasklistsPage extends Component {
                             <ListItem
                                 leftIcon={<HomeIcon />}
                                 primaryText="Home"
-                                onClick={this.handleRedirect.bind(this, `/lists`)}
+                                onClick={this.handleRedirect.bind(this, `lists`)}
                             />
                             <ListItem
                                 leftIcon={<ListIcon />}
                                 primaryText="About"
-                                onClick={this.handleRedirect.bind(this, `/about`)}
+                                onClick={this.handleRedirect.bind(this, `about`)}
                             />
                         </List>
                         <Divider />
@@ -52,9 +52,9 @@ class TasklistsPage extends Component {
                                                 { backgroundColor: 'rgba(0,0,0,0.1)' }
                                             :
                                                 null
-                                        }                                        
+                                        }
                                         primaryText={list.name}
-                                        onClick={this.handleRedirect.bind(this, `/lists/${list.id}`)}
+                                        onClick={this.handleRedirect.bind(this, `lists/${list.id}`)}
                                     />
                                 )
                             }

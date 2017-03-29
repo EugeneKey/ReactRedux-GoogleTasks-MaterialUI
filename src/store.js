@@ -7,7 +7,7 @@ function _getMiddleware() {
   const middleware = [
     ReduxThunk
   ];
-    
+
   return applyMiddleware(...middleware);
 }
 

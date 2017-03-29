@@ -1,4 +1,5 @@
 public/config.js
 public/build
+public/bundle.js
 npm-debug.log
 /node_modules

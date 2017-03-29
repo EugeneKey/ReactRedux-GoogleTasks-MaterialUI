@@ -45,7 +45,7 @@ class TasklistsPageContainer extends Component {
     }
 
     handleRedirect(link) {
-        browserHistory.push(link);
+        browserHistory.push(process.env.BASE_URL + link);
     }
 
     render() {

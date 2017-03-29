@@ -8,13 +8,13 @@ import TaskListsActions from '../actions/TaskListsActions';
 import TasksPage from '../components/TasksPage';
 import TaskCreateModal from '../components/TaskCreateModal';
 
-class TasksPageContainer extends Component {    
+class TasksPageContainer extends Component {
     state = {
         isCreatingTask: false
     }
 
     constructor(props) {
-        super(props);     
+        super(props);
 
         // Bind `this` within methods
         this.handleTaskUpdate = this.handleTaskUpdate.bind(this);
@@ -23,11 +23,11 @@ class TasksPageContainer extends Component {
         this.handleTaskCreateModalClose = this.handleTaskCreateModalClose.bind(this);
         this.handleTaskSubmit = this.handleTaskSubmit.bind(this);
         this.handleDeleteTaskList = this.handleDeleteTaskList.bind(this);
-        this.handleUpdateTaskList = this.handleUpdateTaskList.bind(this);        
+        this.handleUpdateTaskList = this.handleUpdateTaskList.bind(this);
     }
     componentWillMount() {
         this.props.dispatch(TasksActions.loadTasks(this.props.params.id));
-        this.props.dispatch(TaskListsActions.loadTaskList(this.props.params.id));   
+        this.props.dispatch(TaskListsActions.loadTaskList(this.props.params.id));
     }
     componentWillReceiveProps(nextProps) {
         if (this.props.params.id !== nextProps.params.id) {
@@ -76,7 +76,7 @@ class TasksPageContainer extends Component {
                 taskListId: this.props.params.id
             }));
         }
-        browserHistory.push('/lists');
+        browserHistory.push(process.env.BASE_URL + 'lists');
     }
 
     handleUpdateTaskList({ name }) {

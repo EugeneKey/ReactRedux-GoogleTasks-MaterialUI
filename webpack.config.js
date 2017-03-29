@@ -1,17 +1,18 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
+const GhPagesWebpackPlugin = require('gh-pages-webpack-plugin');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
+console.log(process.env.NODE_ENV);
+console.log(NODE_ENV);
+
 module.exports = {
     entry: [
-        'webpack-dev-server/client?http://0.0.0.0:3000',
-        'webpack/hot/dev-server',
         './src/main.js'
     ],
     output: {
-        publicPath: 'http://0.0.0.0:3000/',
         path: __dirname + '/public',
         filename: 'bundle.js'
     },
@@ -24,7 +25,10 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new ExtractTextPlugin('bundle.css'),
         new webpack.DefinePlugin({
-            NODE_ENV: JSON.stringify(NODE_ENV)
+            "process.env": {
+              NODE_ENV: JSON.stringify(NODE_ENV),
+              BASE_URL: NODE_ENV == 'development' ? JSON.stringify('/') : JSON.stringify('/ReactRedux-GoogleTasks-MaterialUI/')
+            },
         }),
         new webpack.NoErrorsPlugin()
     ],
@@ -112,6 +116,16 @@ if (NODE_ENV == 'production') {
                 warnings:       false,
                 drop_console:   true,
                 unsafe:         true
+            }
+        }),
+        new GhPagesWebpackPlugin({
+            path: './public',
+            options: {
+                message: 'Update React Google Pages',
+                user: {
+                    name: 'EugeneKey',
+                    email: 'evgeny.konyaev@gmail.com'
+                }
             }
         })
     );

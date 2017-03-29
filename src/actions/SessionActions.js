@@ -45,7 +45,7 @@ const SessionActions = {
               dispatch({
                 type: AppConstants.SESSION_LOGOUT_SUCCESS
               });
-              browserHistory.push('/login');
+              browserHistory.push(process.env.BASE_URL);
             });
     };
   }
